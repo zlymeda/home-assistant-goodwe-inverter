@@ -23,8 +23,6 @@ _LOGGER = logging.getLogger(__name__)
 class GoodweSettingsSwitchEntityDescription(SwitchEntityDescription):
     """Required values when describing Goodwe switch settings."""
 
-    icon_on: str
-    icon_off: str
     settings_name: str
 
 
@@ -32,8 +30,6 @@ LOAD_CONTROL = GoodweSettingsSwitchEntityDescription(
     key="load_control",
     translation_key="load_control",
     has_entity_name=True,
-    icon_off="mdi:electric-switch",
-    icon_on="mdi:electric-switch-closed",
     entity_category=EntityCategory.CONFIG,
     device_class=SwitchDeviceClass.OUTLET,
     settings_name='load_control_switch',
@@ -43,8 +39,6 @@ EXPORT_LIMIT_CONTROL = GoodweSettingsSwitchEntityDescription(
     key="grid_export",
     translation_key="grid_export",
     has_entity_name=True,
-    icon_on="mdi:transmission-tower-off",
-    icon_off="mdi:transmission-tower-import",
     entity_category=EntityCategory.CONFIG,
     device_class=SwitchDeviceClass.OUTLET,
     settings_name='grid_export',
@@ -104,14 +98,6 @@ class InverterSwitchEntity(SwitchEntity):
         self._attr_device_info = device_info
         self._attr_is_on = current_state
         self._inverter: Inverter = inverter
-
-    @property
-    def icon(self):
-        """Return the icon to be displayed for the switch."""
-        if self._attr_is_on:
-            return self.entity_description.icon_on
-
-        return self.entity_description.icon_off
 
     async def async_turn_on(self, **kwargs: Any) -> None:
         """Turn the entity on."""
